@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="C:\Users\brend\.nuget\packages\deepsigma.unittest\1.0.0.1\contentFiles\any\net9.0\testhost.dll" />
+    <Content Remove="C:\Users\brend\.nuget\packages\deepsigma.unittest\1.0.0.1\contentFiles\any\net9.0\testhost.exe" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*" />
+    <PackageReference Include="DeepSigma.UnitTest" Version="1.0.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\" />
+  </ItemGroup>
+
+</Project>
