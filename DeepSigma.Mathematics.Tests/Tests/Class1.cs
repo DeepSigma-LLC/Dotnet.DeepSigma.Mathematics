@@ -1,7 +1,6 @@
-﻿namespace DeepSigma.Mathematics.Tests.Tests
-{
-    public class Class1
-    {
+﻿namespace DeepSigma.Mathematics.Tests.Tests;
 
-    }
+public class Class1
+{
+
 }
