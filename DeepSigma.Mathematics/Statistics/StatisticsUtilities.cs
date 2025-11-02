@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using DeepSigma.General.Enums;
 
-namespace DeepSigma.Mathematics;
+namespace DeepSigma.Mathematics.Statistics;
 
 /// <summary>
 /// Statistical utility functions for financial calculations.

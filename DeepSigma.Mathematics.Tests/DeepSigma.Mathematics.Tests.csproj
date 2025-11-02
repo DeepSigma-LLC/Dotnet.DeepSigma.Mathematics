@@ -18,11 +18,18 @@
   <ItemGroup>
 	<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*" />
     <PackageReference Include="DeepSigma.UnitTest" Version="1.0.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Data\" />
-    <Folder Include="Tests\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DeepSigma.Mathematics\DeepSigma.Mathematics.csproj" />
   </ItemGroup>
 
 </Project>

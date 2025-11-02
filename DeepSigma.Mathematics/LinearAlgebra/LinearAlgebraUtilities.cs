@@ -1,6 +1,6 @@
 ﻿using System.Numerics.Tensors;
 
-namespace DeepSigma.Mathematics;
+namespace DeepSigma.Mathematics.LinearAlgebra;
 
 /// <summary>
 /// Utility class for linear algebra operations.

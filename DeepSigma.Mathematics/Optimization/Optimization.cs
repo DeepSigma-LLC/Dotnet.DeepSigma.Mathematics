@@ -1,6 +1,6 @@
 ﻿using NLoptNet;
 
-namespace DeepSigma.Mathematics;
+namespace DeepSigma.Mathematics.Optimization;
 
 /// <summary>
 /// Optimization utilities.
