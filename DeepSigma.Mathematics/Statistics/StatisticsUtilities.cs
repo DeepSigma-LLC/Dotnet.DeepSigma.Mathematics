@@ -20,6 +20,20 @@ public static class StatisticsUtilities
         return (decimal)MathNet.Numerics.Distributions.Normal.CDF(mean, std, x);
     }
 
+
+    /// <summary>
+    /// Calculates the inverse of the normal cumulative distribution function (CDF) for a given probability p, mean, and standard deviation.
+    /// </summary>
+    /// <param name="p"></param>
+    /// <param name="mean"></param>
+    /// <param name="std"></param>
+    /// <returns></returns>
+    public static decimal CalculateNormInverse(double p, double mean, double std)
+    {
+        return (decimal)MathNet.Numerics.Distributions.Normal.InvCDF(mean, std, p);
+    }
+
+
     /// <summary>
     /// Calculates the probability density function (PDF) for a normal distribution given the mean, standard deviation, and a specific value x.
     /// </summary>
@@ -31,6 +45,15 @@ public static class StatisticsUtilities
     {
         return (decimal)MathNet.Numerics.Distributions.Normal.PDF(mean, std, x);
     }
+
+    /// <summary>
+    /// Calculates the Z-Score for a given value, mean, and standard deviation.
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="mean"></param>
+    /// <param name="std"></param>
+    /// <returns></returns>
+    public static decimal CalculateZScore(decimal value, decimal mean, decimal std) => (value - mean) / std;
 
     /// <summary>
     /// Caluclates the total return of a return series.
