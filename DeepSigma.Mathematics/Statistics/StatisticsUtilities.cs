@@ -15,9 +15,9 @@ public static class StatisticsUtilities
     /// <param name="std"></param>
     /// <param name="x"></param>
     /// <returns></returns>
-    public static decimal CalculateCDF(double mean, double std, double x)
+    public static decimal CalculateCDF(decimal mean, decimal std, decimal x)
     {
-        return (decimal)MathNet.Numerics.Distributions.Normal.CDF(mean, std, x);
+        return (decimal)MathNet.Numerics.Distributions.Normal.CDF((double)mean, (double)std, (double)x);
     }
 
 
@@ -28,9 +28,9 @@ public static class StatisticsUtilities
     /// <param name="mean"></param>
     /// <param name="std"></param>
     /// <returns></returns>
-    public static decimal CalculateNormInverse(double p, double mean, double std)
+    public static decimal CalculateNormInverse(decimal p, decimal mean, decimal std)
     {
-        return (decimal)MathNet.Numerics.Distributions.Normal.InvCDF(mean, std, p);
+        return (decimal)MathNet.Numerics.Distributions.Normal.InvCDF((double)mean, (double)std, (double)p);
     }
 
 
@@ -41,9 +41,9 @@ public static class StatisticsUtilities
     /// <param name="std"></param>
     /// <param name="x"></param>
     /// <returns></returns>
-    public static decimal CalculatePDF(double mean, double std, double x)
+    public static decimal CalculatePDF(decimal mean, decimal std, decimal x)
     {
-        return (decimal)MathNet.Numerics.Distributions.Normal.PDF(mean, std, x);
+        return (decimal)MathNet.Numerics.Distributions.Normal.PDF((double)mean, (double)std, (double)x);
     }
 
     /// <summary>
