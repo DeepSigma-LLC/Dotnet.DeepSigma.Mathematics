@@ -72,10 +72,11 @@ public static class StatisticsUtilities
     /// </summary>
     /// <param name="Data"></param>
     /// <returns></returns>
-    public static decimal CalculateAnnualizedReturn(SortedDictionary<DateTime, decimal> Data)
+    public static decimal CalculateAnnualizedReturn<TDate>(SortedDictionary<TDate, decimal> Data)
+        where TDate : struct, IDateTime<TDate>
     {
         decimal totalReturn = CalculateTotalReturn(Data.Values.ToArray());
-        Periodicity periodicity = PeriodicityUtilities.GetEstimatedPeriodicityUsingFuzzyLogic(Data.Keys.ToArray());
+        Periodicity periodicity = PeriodicityUtilities.GetEstimatedPeriodicityUsingFuzzyLogic(Data.Keys.Select(x => x.DateTime).ToArray());
         int PeriodsPerYear = PeriodicityUtilities.GetPeriodsPerYear(periodicity);
         TimeSpan timeSpan = Data.Keys.Max() - Data.Keys.Min();
         double DaysPerPeriod = 365.25 / PeriodsPerYear;
