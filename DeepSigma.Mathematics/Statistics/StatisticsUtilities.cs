@@ -1,5 +1,7 @@
 ﻿using System.Data;
+using DeepSigma.General.DateTimeUnification;
 using DeepSigma.General.Enums;
+using DeepSigma.General.Extensions;
 
 namespace DeepSigma.Mathematics.Statistics;
 
@@ -62,7 +64,7 @@ public static class StatisticsUtilities
     /// <returns></returns>
     public static decimal CalculateTotalReturn(decimal[] returns)
     {
-        return returns.Aggregate((decimal)1, (accumulation, observationReturn) => accumulation * (1 + observationReturn)) - 1;
+        return returns.Aggregate(1m, (accumulation, observationReturn) => accumulation * (1 + observationReturn)) - 1;
     }
 
     /// <summary>
@@ -78,8 +80,8 @@ public static class StatisticsUtilities
         TimeSpan timeSpan = Data.Keys.Max() - Data.Keys.Min();
         double DaysPerPeriod = 365.25 / PeriodsPerYear;
         double PeriodsWithinSeries = timeSpan.TotalDays / DaysPerPeriod;
-        double AnnualizationFactor = PeriodsPerYear / PeriodsWithinSeries;
-        return (decimal)Math.Pow((double)(1 + totalReturn), AnnualizationFactor) - 1;
+        decimal AnnualizationFactor = PeriodsPerYear.ToDecimal() / PeriodsWithinSeries.ToDecimal();
+        return Math.Pow((1 + totalReturn), AnnualizationFactor) - 1;
     }
 
     /// <summary>
@@ -107,7 +109,7 @@ public static class StatisticsUtilities
     public static decimal CalculateSampleVariance(decimal[] dataset)
     {
         decimal mean = dataset.Average();
-        return dataset.Select(x => (decimal)Math.Pow((double)x - (double)mean, 2)).Sum() / (dataset.Length - 1);
+        return dataset.Select(x => Math.Pow((x - mean), 2)).Sum() / (dataset.Length - 1);
     }
 
     /// <summary>
@@ -117,7 +119,7 @@ public static class StatisticsUtilities
     /// <returns></returns>
     public static decimal CalculateSampleStandardDeviation(decimal[] dataset)
     {
-        return (decimal)Math.Sqrt((double)CalculateSampleVariance(dataset));
+        return Math.Sqrt(CalculateSampleVariance(dataset));
     }
 
     /// <summary>
@@ -125,13 +127,13 @@ public static class StatisticsUtilities
     /// </summary>
     /// <param name="Data"></param>
     /// <returns></returns>
-    public static decimal CalculateAnnulizedVolatility(SortedDictionary<DateTime, decimal> Data)
+    public static decimal CalculateAnnulizedVolatility<TDate>(SortedDictionary<TDate, decimal> Data) 
+        where TDate : struct, IDateTime<TDate>
     {
-        decimal StandardDeviation = (decimal)Math.Sqrt((double)CalculateSampleVariance(Data.Values.ToArray()));
-        decimal annualizationMultiplier = PeriodicityUtilities.GetAnnualizationMultiplier(Data.Keys.ToArray());
+        decimal StandardDeviation = Math.Sqrt(CalculateSampleVariance(Data.Values.ToArray()));
+        decimal annualizationMultiplier = PeriodicityUtilities.GetAnnualizationMultiplier(Data.Keys.Select(x => x.DateTime).ToArray());
         return StandardDeviation * annualizationMultiplier;
     }
-
 
     /// <summary>
     /// Calculates the strength and direction of two data sets relationship. It returns a correlation coefficient ranging from -1 (perfect negative correlation) to +1 (perfect positive correlation), with 0 indicating no correlation. Often represented as the variable R in mathematics. Range (-1, 1).
@@ -157,7 +159,7 @@ public static class StatisticsUtilities
     public static decimal CalculateRSquared(decimal[] portfolioReturns, decimal[] marketReturns)
     {
         decimal correlation = CalculateCorrelation(portfolioReturns, marketReturns);
-        return (decimal)Math.Pow((double)correlation,2);
+        return correlation.PowerExact(2);
     }
 
     /// <summary>
@@ -182,8 +184,7 @@ public static class StatisticsUtilities
     /// <exception cref="ArgumentException"></exception>
     public static decimal CalculateCovariance(decimal[] portfolioReturns, decimal[] marketReturns)
     {
-        if (portfolioReturns.Length != marketReturns.Length)
-            throw new ArgumentException("Return streams must have the same length.");
+        if (portfolioReturns.Length != marketReturns.Length) throw new ArgumentException("Return streams must have the same length.");
 
         int observationCount = portfolioReturns.Length;
         decimal avgPortfolioReturn = portfolioReturns.Average();
@@ -202,10 +203,10 @@ public static class StatisticsUtilities
     /// <param name="marketReturns"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
-    public static decimal CalculateAnnulizedTrackingError(SortedDictionary<DateTime,decimal> portfolioReturns, SortedDictionary<DateTime,decimal> marketReturns)
+    public static decimal CalculateAnnulizedTrackingError<TDate>(SortedDictionary<TDate, decimal> portfolioReturns, SortedDictionary<TDate, decimal> marketReturns)
+        where TDate : struct, IDateTime<TDate>
     {
-        if (portfolioReturns.Count() != marketReturns.Count())
-            throw new ArgumentException("Return streams must have the same length.");
+        if (portfolioReturns.Count != marketReturns.Count)  throw new ArgumentException("Return streams must have the same length.");
 
         decimal annulizedTrackingError = CalculateAnnulizedVolatility(CalculateExcessReturnSeries(portfolioReturns, marketReturns));
         return annulizedTrackingError;
@@ -218,14 +219,14 @@ public static class StatisticsUtilities
     /// <param name="marketReturns"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
-    private static SortedDictionary<DateTime, decimal> CalculateExcessReturnSeries(SortedDictionary<DateTime,decimal> portfolioReturns,SortedDictionary<DateTime,decimal> marketReturns)
+    private static SortedDictionary<TDate, decimal> CalculateExcessReturnSeries<TDate>(SortedDictionary<TDate, decimal> portfolioReturns, SortedDictionary<TDate, decimal> marketReturns)
+        where TDate : struct, IDateTime<TDate>
     {
-        if (portfolioReturns.Count() != marketReturns.Count())
-            throw new ArgumentException("Return streams must have the same length.");
+        if (portfolioReturns.Count != marketReturns.Count) throw new ArgumentException("Return streams must have the same length.");
 
         List<decimal> excessReturns = portfolioReturns.Zip(marketReturns, (portfolioReturn, marketReturn) => portfolioReturn.Value - marketReturn.Value).ToList();
-        SortedDictionary<DateTime, decimal> results = new SortedDictionary<DateTime, decimal>();
-        foreach (DateTime dateTime in portfolioReturns.Keys)
+        SortedDictionary<TDate, decimal> results = [];
+        foreach (TDate dateTime in portfolioReturns.Keys)
         {
             int returnIndex = portfolioReturns.Keys.ToList().IndexOf(dateTime);
             results.Add(dateTime, excessReturns[returnIndex]);
