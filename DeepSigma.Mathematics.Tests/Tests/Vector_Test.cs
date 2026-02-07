@@ -1,5 +1,6 @@
 ﻿using Xunit;
 using DeepSigma.Mathematics.LinearAlgebra;
+using DeepSigma.General.Extensions;
 
 namespace DeepSigma.Mathematics.Tests.Tests;
 
@@ -87,7 +88,40 @@ public class Vector_Test
         Assert.Equal(16, dotProduct);
     }
 
+    [Fact]
+    public void GetCosineSimilarity_ReturnsCorrectValue()
+    {
+        Vector<decimal> x = [1, 0];
+        Vector<decimal> y = [0, 1];
+        decimal cosineSimilarity = x.CosineOfAngleBetweenVector(y);
+        Assert.Equal(0, cosineSimilarity);
+    }
 
+    [Fact]
+    public void GetCosineSimilarityOfParallelVectors_ReturnsOne()
+    {
+        Vector<decimal> x = [1, 2];
+        Vector<decimal> y = [2, 4];
+        decimal cosineSimilarity = x.CosineOfAngleBetweenVector(y);
+        Assert.Equal(1, cosineSimilarity);
+    }
 
+    [Fact]
+    public void GetCosineSimilarityOfAntiParallelVectors_ReturnsNegativeOne()
+    {
+        Vector<decimal> x = [1, 2];
+        Vector<decimal> y = [-1, -2];
+        decimal cosineSimilarity = x.CosineOfAngleBetweenVector(y);
+        Assert.Equal(-1, cosineSimilarity);
+    }
+
+    [Fact]
+    public void GetAngleBetweenVectors_ReturnsCorrectValue()
+    {
+        Vector<decimal> x = [1, 0];
+        Vector<decimal> y = [0, 1];
+        decimal angle = x.AngleBetweenVector(y);
+        Assert.Equal(Math.PI.ToDecimal() / 2, angle, 12);
+    }
 }
 

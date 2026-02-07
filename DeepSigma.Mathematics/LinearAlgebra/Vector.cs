@@ -274,7 +274,7 @@ public class Vector<T>
     /// <param name="other"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    public decimal AngleBetween(Vector<T> other)
+    public decimal AngleBetweenVector(Vector<T> other)
     {
         decimal cosTheta = CosineOfAngleBetweenVector(other);
         return Math.Acos(cosTheta);
