@@ -78,7 +78,14 @@ public class Vector_Test
         Assert.Equal(5, length);
     }
 
-
+    [Fact]
+    public void GetDotProduct_ReturnsCorrectValue()
+    {
+        Vector<decimal> x = [1, 2];
+        Vector<decimal> y = [4, 6];
+        decimal dotProduct = x.Dot(y);
+        Assert.Equal(16, dotProduct);
+    }
 
 
 

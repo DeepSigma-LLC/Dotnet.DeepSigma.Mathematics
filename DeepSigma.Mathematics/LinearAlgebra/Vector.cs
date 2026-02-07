@@ -1,8 +1,9 @@
 ﻿
+using DeepSigma.General.Extensions;
 using System.Collections;
+using System.Collections.Generic;
 using System.Numerics;
 using System.Runtime.CompilerServices;
-using DeepSigma.General.Extensions;
 
 namespace DeepSigma.Mathematics.LinearAlgebra;
 
@@ -160,19 +161,41 @@ public class Vector<T>
     /// <summary>
     /// Calculates the dot product of two vectors of the same dimension, returning a single value that represents the sum of the products of corresponding components from the two vectors.
     /// </summary>
-    /// <param name="a"></param>
-    /// <param name="b"></param>
+    /// <param name="other">The other vector.</param>
+    /// <remarks>
+    /// Summary of the properties of the dot product:
+    /// <list type="bullet">
+    ///   <item>
+    ///     <description>Taking the dot product of a vector with itself yields the square of its length, which is a measure of the vector's magnitude.</description>
+    ///   </item>
+    ///   <item>
+    ///     <description>If the dot product of two vectors is zero, it indicates that the vectors are orthogonal (perpendicular) to each other in the vector space.</description>
+    ///   </item>
+    ///   <item>
+    ///     <description>If the dot product is positive, it indicates that the vectors are pointing in generally the same direction, while a negative dot product indicates that they are pointing in generally opposite directions.</description>
+    ///   </item>
+    ///   <item>
+    ///     <description>If the dot product is equal to the product of the lengths of the two vectors, it indicates that the vectors are parallel and pointing in the same direction. </description>
+    ///   </item>
+    ///   <item>
+    ///     <description>If it is equal to the negative product of their lengths, they are parallel but pointing in opposite directions.</description>
+    ///   </item>
+    ///   <item>
+    ///     <description>Taking the dot product of a vector with a unit vector in a particular direction gives the magnitude of the projection of the original vector onto that direction, which is useful in various applications such as calculating angles between vectors and determining components of vectors along specific axes.</description>
+    ///   </item>
+    /// </list>
+    /// </remarks>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    public T Dot(Vector<T> b)
+    public T Dot(Vector<T> other)
     {
-        if (this.Dimension != b.Dimension)
+        if (this.Dimension != other.Dimension)
             throw new InvalidOperationException("Vectors must have the same dimension for dot product.");
 
         T result = T.Zero;
         for (int i = 0; i < this.Dimension; i++)
         {
-            result += this[i] * b[i];
+            result += this[i] * other[i];
         }
         return result;
     }
@@ -195,6 +218,67 @@ public class Vector<T>
         return Math.Sqrt(sumSquares);
     }
 
+    /// <summary>
+    /// Returns a new vector that has the same direction as the original vector but a length of 1.
+    /// We first calculate the length of the original vector, and then divide each component by that length to normalize it.
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    public Vector<decimal> UnitVector()
+    {
+        double length = Length();
+        if (length == 0)
+            throw new InvalidOperationException("Cannot compute the unit vector of a zero vector.");
+
+        decimal[] unitComponents = new decimal[Dimension];
+        for (int i = 0; i < Dimension; i++)
+        {
+            unitComponents[i] = decimal.CreateChecked(this[i]) / (decimal)length;
+        }
+        return new Vector<decimal>(unitComponents);
+    }
+
+    /// <summary>
+    /// Determines whether the current vector is perpendicular (orthogonal) to another vector.
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
+    public bool ArePerpendicularTo(Vector<T> other)
+    {
+        return Dot(other) == T.Zero;
+    }
+
+    /// <summary>
+    /// Calculates the cosine of the angle between the current vector and another vector using the dot product formula.
+    /// Aka cosine similarity, which is a measure of the cosine of the angle between two vectors in an inner product space.
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    public decimal CosineOfAngleBetweenVector(Vector<T> other)
+    {
+        double lengthA = Length();
+        double lengthB = other.Length();
+        if (lengthA == 0 || lengthB == 0)
+            throw new InvalidOperationException("Cannot compute the cosine of the angle between a zero vector and another vector.");
+
+        double dotProduct = double.CreateChecked(Dot(other));
+        double cosTheta = (dotProduct / (lengthA * lengthB));
+
+        return Math.Clamp(cosTheta, -1.0, 1.0).ToDecimal();
+    }
+
+    /// <summary>
+    /// Calculates the angle in radians between the current vector and another vector using the dot product formula.
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    public decimal AngleBetween(Vector<T> other)
+    {
+        decimal cosTheta = CosineOfAngleBetweenVector(other);
+        return Math.Acos(cosTheta);
+    }
 
     /// <summary>
     /// Returns an enumerator that iterates through the components of the vector, allowing for enumeration using foreach loops and LINQ queries.
