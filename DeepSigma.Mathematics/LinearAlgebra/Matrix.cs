@@ -47,6 +47,11 @@ public class Matrix<T>
     public int RowCount => _components[0].Dimension;
 
     /// <summary>
+    /// Gets the rank of the matrix, which is the maximum number of linearly independent row or column vectors in the matrix.
+    /// </summary>
+    public int Rank => throw new NotImplementedException(); // Need a systematic way to determine the rank of a matrix, which involves checking for linear independence among the rows or columns.
+
+    /// <summary>
     /// Adds two matrices of the same dimensions and returns a new matrix as the result.
     /// </summary>
     /// <param name="a"></param>
