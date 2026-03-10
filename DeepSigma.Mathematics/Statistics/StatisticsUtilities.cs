@@ -66,6 +66,36 @@ public static class StatisticsUtilities
         return (decimal)MathNet.Numerics.Distributions.Normal.InvCDF((double)mean, (double)std, (double)p);
     }
 
+    /// <summary>
+    /// Calculates the cumulative distribution function (CDF) for a log-normal distribution given the mean, standard deviation, and a specific value x.
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="mean"></param>
+    /// <param name="std"></param>
+    /// <returns></returns>
+    public static decimal CalculateLogNormCDF(decimal x, decimal mean, decimal std)
+    {
+        return (decimal)MathNet.Numerics.Distributions.LogNormal.CDF((double)mean, (double)std, (double)x);
+    }
+
+    public static decimal CalculatePoissonCDF(decimal x, decimal lambda)
+    {
+        return (decimal)MathNet.Numerics.Distributions.Poisson.CDF((double)lambda,(double)x);
+    }
+
+    /// <summary>
+    /// Log normal inverse CDF, also known as the quantile function, calculates the value x such that the cumulative distribution function (CDF) of a log-normal distribution with a given mean and standard deviation equals a specified probability p.
+    /// In other words, it finds the value x for which P(X ≤ x) = p, where X is a log-normally distributed random variable. 
+    /// This function is useful for determining thresholds or percentiles in a log-normal distribution based on a desired confidence level or probability.
+    /// </summary>
+    /// <param name="p"></param>
+    /// <param name="mean"></param>
+    /// <param name="std"></param>
+    /// <returns></returns>
+    public static decimal CalculateLogNormInverse(decimal p, decimal mean, decimal std)
+    {
+        return (decimal)MathNet.Numerics.Distributions.LogNormal.CDF((double)mean, (double)std, (double)p);
+    }
 
     /// <summary>
     /// Calculates the probability density function (PDF) for a normal distribution given the mean, standard deviation, and a specific value x.
