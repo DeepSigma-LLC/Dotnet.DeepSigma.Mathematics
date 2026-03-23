@@ -78,6 +78,16 @@ public static class StatisticsUtilities
         return (decimal)MathNet.Numerics.Distributions.LogNormal.CDF((double)mean, (double)std, (double)x);
     }
 
+    /// <summary>
+    /// Calculates the cumulative distribution function (CDF) of the Poisson distribution for a specified value and rate
+    /// parameter.
+    /// </summary>
+    /// <remarks>This method uses the MathNet.Numerics library to compute the CDF. Ensure that <paramref
+    /// name="x"/> and <paramref name="lambda"/> are within valid ranges to avoid unexpected results.</remarks>
+    /// <param name="x">The value at which to evaluate the cumulative probability. Must be a non-negative integer.</param>
+    /// <param name="lambda">The average rate (λ) of occurrences for the Poisson distribution. Must be a positive value.</param>
+    /// <returns>A decimal value representing the probability that a Poisson-distributed random variable is less than or equal to
+    /// <paramref name="x"/>.</returns>
     public static decimal CalculatePoissonCDF(decimal x, decimal lambda)
     {
         return (decimal)MathNet.Numerics.Distributions.Poisson.CDF((double)lambda,(double)x);
@@ -128,6 +138,38 @@ public static class StatisticsUtilities
         return returns.Aggregate(1m, (accumulation, observationReturn) => accumulation * (1 + observationReturn)) - 1;
     }
 
+
+    /// <summary>
+    /// Calculates the combined standard deviation of two independent random variables given their individual standard
+    /// deviations.
+    /// </summary>
+    /// <remarks>This method assumes that the input standard deviations correspond to independent variables,
+    /// in which case the variances are additive. The result is the square root of the sum of the input
+    /// variances.</remarks>
+    /// <param name="std_1">The standard deviation of the first independent variable. Must be a non-negative value.</param>
+    /// <param name="std_2">The standard deviation of the second independent variable. Must be a non-negative value.</param>
+    /// <returns>The standard deviation representing the combined variability of the two independent variables.</returns>
+    public static decimal CalculateStandardDeviationOfIndependentVariables(decimal std_1, decimal std_2)
+    {
+        decimal variance_1 = Math.Pow(std_1, 2);
+        decimal variance_2 = Math.Pow(std_2, 2);
+        decimal totalVariance = variance_1 + variance_2; // For independent variables, the variances add up
+        return Math.Sqrt(totalVariance);
+    }
+
+    /// <summary>
+    /// Calculates the standard deviation over n observations given the standard deviation of a single observation. 
+    /// This is based on the principle that the standard deviation of the sum of n independent random variables is equal to the square root of n times the standard deviation of a single variable.
+    /// Keep in mind that this calculation assumes that the observations are independent and identically distributed (i.i.d.) and that the standard deviation provided is for a single observation. 
+    /// If the observations are not independent or if the standard deviation is not for a single observation, this calculation may not be accurate. 
+    /// [Look at the formula for the standard deviation of with of non-independent variables (correlation)].
+    /// </summary>
+    /// <param name="std"></param>
+    /// <param name="n"></param>
+    /// <returns></returns>
+    public static decimal CalculateStandardDeviationOverNObservations(decimal std, int n) => 
+        std * Math.Sqrt(n.ToDecimal()); 
+
     /// <summary>
     /// Calculates the combined standard deviation of two correlated variables based on their individual standard
     /// deviations and the correlation coefficient.
@@ -138,9 +180,29 @@ public static class StatisticsUtilities
     /// <returns>The standard deviation of the combined variables, accounting for their correlation, as a decimal value.</returns>
     public static decimal CalculateStandardDeviationOfCorrelatedVariables(decimal std_1, decimal std_2, decimal correlation)
     {
+        return CalculateStandardDeviationOfCorrelatedVariables(std_1, std_2, correlation, true);
+    }
+
+    /// <summary>
+    /// Calculates the standard deviation of the difference between two correlated variables, given their individual
+    /// standard deviations and the correlation coefficient.
+    /// </summary>
+    /// <param name="std_1">The standard deviation of the first variable. Must be a non-negative value.</param>
+    /// <param name="std_2">The standard deviation of the second variable. Must be a non-negative value.</param>
+    /// <param name="correlation">The correlation coefficient between the two variables. Must be in the range from -1 to 1, where -1 indicates
+    /// perfect negative correlation, 0 indicates no correlation, and 1 indicates perfect positive correlation.</param>
+    /// <returns>The standard deviation of the difference between the two correlated variables as a decimal value.</returns>
+    public static decimal CalculateStandardDeviationOfDifferenceInCorrelatedVariables(decimal std_1, decimal std_2, decimal correlation)
+    {
+        return CalculateStandardDeviationOfCorrelatedVariables(std_1, std_2, correlation, false);
+    }
+
+    private static decimal CalculateStandardDeviationOfCorrelatedVariables(decimal std_1, decimal std_2, decimal correlation, bool additive = true)
+    {
+        decimal direction_multiplier = additive ? 1 : -1;
         decimal variance_1 = Math.Pow(std_1, 2);
         decimal variance_2 = Math.Pow(std_2, 2);
-        return Math.Sqrt(variance_1 + variance_2 + 2 * correlation * std_1 * std_2 );
+        return Math.Sqrt(variance_1 + variance_2 + direction_multiplier * 2 * correlation * std_1 * std_2);
     }
 
     /// <summary>
