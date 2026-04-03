@@ -13,7 +13,7 @@ public static class VectorOperations
     /// </summary>
     /// <param name="vector"></param>
     /// <returns></returns>
-    public static decimal Length(Vector<decimal> vector)
+    public static decimal Length(CustomVector<decimal> vector)
     {
         decimal sum = vector.Sum();
         return Math.Sqrt(sum);

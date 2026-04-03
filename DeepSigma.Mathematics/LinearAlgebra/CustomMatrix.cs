@@ -10,18 +10,18 @@ namespace DeepSigma.Mathematics.LinearAlgebra;
 /// valid matrix. The matrix provides access to its row and column dimensions, enabling mathematical operations and
 /// transformations on numeric data.</remarks>
 /// <typeparam name="T">The numeric type of the matrix elements. Must implement <see cref="INumber{T}"/> to support arithmetic operations.</typeparam>
-public class Matrix<T>
+public class CustomMatrix<T>
         where T : INumber<T>
 {
-    private readonly Vector<T>[] _components;
+    private readonly CustomVector<T>[] _components;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="Matrix{T}"/> class with the specified components. 
+    /// Initializes a new instance of the <see cref="CustomMatrix{T}"/> class with the specified components. 
     /// The number of vectors provided determines the dimension of the matrix.
     /// Each vector represents a row of the matrix, and all vectors must have the same dimension to form a valid matrix.
     /// </summary>
     /// <param name="components"></param>
-    public Matrix(params Vector<T>[] components)
+    public CustomMatrix(params CustomVector<T>[] components)
     {
         _components = components;
     }
@@ -32,7 +32,7 @@ public class Matrix<T>
     /// </summary>
     /// <param name="index"></param>
     /// <returns></returns>
-    public Vector<T> this[int index] => _components[index];
+    public CustomVector<T> this[int index] => _components[index];
 
     /// <summary>
     /// Gets the number of vectors (columns) in the matrix, which corresponds to its dimension. 
@@ -58,17 +58,17 @@ public class Matrix<T>
     /// <param name="b"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    public static Matrix<T> operator +(Matrix<T> a, Matrix<T> b)
+    public static CustomMatrix<T> operator +(CustomMatrix<T> a, CustomMatrix<T> b)
     {
         if (a.ColumnCount != b.ColumnCount || a.RowCount != b.RowCount)
             throw new InvalidOperationException("Matrices must have the same dimensions for addition.");
 
-        Vector<T>[] resultComponents = new Vector<T>[a.ColumnCount];
+        CustomVector<T>[] resultComponents = new CustomVector<T>[a.ColumnCount];
         for (int i = 0; i < a.ColumnCount; i++)
         {
             resultComponents[i] = a._components[i] + b._components[i];
         }
-        return new Matrix<T>(resultComponents);
+        return new CustomMatrix<T>(resultComponents);
     }
 
     /// <summary>
@@ -78,16 +78,16 @@ public class Matrix<T>
     /// <param name="b"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    public static Matrix<T> operator -(Matrix<T> a, Matrix<T> b)
+    public static CustomMatrix<T> operator -(CustomMatrix<T> a, CustomMatrix<T> b)
     {
         if (a.ColumnCount != b.ColumnCount || a.RowCount != b.RowCount)
             throw new InvalidOperationException("Matrices must have the same dimensions for subtraction.");
-        Vector<T>[] resultComponents = new Vector<T>[a.ColumnCount];
+        CustomVector<T>[] resultComponents = new CustomVector<T>[a.ColumnCount];
         for (int i = 0; i < a.ColumnCount; i++)
         {
             resultComponents[i] = a._components[i] - b._components[i];
         }
-        return new Matrix<T>(resultComponents);
+        return new CustomMatrix<T>(resultComponents);
     }
 
     /// <summary>
@@ -96,9 +96,9 @@ public class Matrix<T>
     /// <param name="a"></param>
     /// <param name="scalar"></param>
     /// <returns></returns>
-    public static Matrix<T> operator *(Matrix<T> a, T scalar)
+    public static CustomMatrix<T> operator *(CustomMatrix<T> a, T scalar)
     {
-        Vector<T>[] resultComponents = new Vector<T>[a.ColumnCount];
+        CustomVector<T>[] resultComponents = new CustomVector<T>[a.ColumnCount];
         for (int i = 0; i < a.ColumnCount; i++)
         {
             T[] scaledComponents = new T[a.RowCount];
@@ -106,9 +106,9 @@ public class Matrix<T>
             {
                 scaledComponents[j] = a[i][j] * scalar;
             }
-            resultComponents[i] = new Vector<T>(scaledComponents);
+            resultComponents[i] = new CustomVector<T>(scaledComponents);
         }
-        return new Matrix<T>(resultComponents);
+        return new CustomMatrix<T>(resultComponents);
     }
 
     /// <summary>
@@ -117,7 +117,7 @@ public class Matrix<T>
     /// <param name="scalar"></param>
     /// <param name="a"></param>
     /// <returns></returns>
-    public static Matrix<T> operator *(T scalar, Matrix<T> a) => a * scalar;
+    public static CustomMatrix<T> operator *(T scalar, CustomMatrix<T> a) => a * scalar;
 
 
     /// <summary>
@@ -127,12 +127,12 @@ public class Matrix<T>
     /// <param name="b"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    public static Matrix<T> operator *(Matrix<T> a, Matrix<T> b)
+    public static CustomMatrix<T> operator *(CustomMatrix<T> a, CustomMatrix<T> b)
     {
         if (a.RowCount != b.ColumnCount)
             throw new InvalidOperationException("The number of rows in the first matrix must equal the number of columns in the second matrix for multiplication.");
 
-        Vector<T>[] resultComponents = new Vector<T>[a.ColumnCount];
+        CustomVector<T>[] resultComponents = new CustomVector<T>[a.ColumnCount];
         for (int i = 0; i < a.ColumnCount; i++)
         {
             T[] rowComponents = new T[b.RowCount];
@@ -145,9 +145,9 @@ public class Matrix<T>
                 }
                 rowComponents[j] = sum;
             }
-            resultComponents[i] = new Vector<T>(rowComponents);
+            resultComponents[i] = new CustomVector<T>(rowComponents);
         }
-        return new Matrix<T>(resultComponents);
+        return new CustomMatrix<T>(resultComponents);
     }
 
     /// <summary>
@@ -156,9 +156,9 @@ public class Matrix<T>
     /// <param name="row"></param>
     /// <param name="columns"></param>
     /// <returns></returns>
-    public static Matrix<T> BuildIdentityMatrix(int row, int columns)
+    public static CustomMatrix<T> BuildIdentityMatrix(int row, int columns)
     {
-        Vector<T>[] components = new Vector<T>[row];
+        CustomVector<T>[] components = new CustomVector<T>[row];
         for (int i = 0; i < row; i++)
         {
             T[] rowComponents = new T[columns];
@@ -166,9 +166,9 @@ public class Matrix<T>
             {
                 rowComponents[j] = i == j ? T.One : T.Zero;
             }
-            components[i] = new Vector<T>(rowComponents);
+            components[i] = new CustomVector<T>(rowComponents);
         }
-        return new Matrix<T>(components);
+        return new CustomMatrix<T>(components);
     }
 
     /// <summary>
@@ -177,7 +177,7 @@ public class Matrix<T>
     /// </summary>
     /// <param name="matrix"></param>
     /// <returns></returns>
-    public static Matrix<T> Transpose(Matrix<T> matrix)
+    public static CustomMatrix<T> Transpose(CustomMatrix<T> matrix)
     {
         throw new NotImplementedException();
     }

@@ -14,28 +14,28 @@ namespace DeepSigma.Mathematics.LinearAlgebra;
 /// </summary>
 /// <typeparam name="T"></typeparam>
 [CollectionBuilder(typeof(VectorBuilder), nameof(VectorBuilder.Create))]
-public class Vector<T>
+public class CustomVector<T>
     : IEnumerable<T>
     where T : INumber<T>
 {
     private readonly T[] _components;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="Vector{T}"/> class with the specified components. The number of components provided determines the dimension of the vector.
+    /// Initializes a new instance of the <see cref="CustomVector{T}"/> class with the specified components. The number of components provided determines the dimension of the vector.
     /// </summary>
     /// <param name="components"></param>
-    public Vector(params T[] components)
+    public CustomVector(params T[] components)
     {
         _components = components ?? throw new ArgumentNullException(nameof(components));
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="Vector{T}"/> class with the specified components, with an option to copy the input array.
+    /// Initializes a new instance of the <see cref="CustomVector{T}"/> class with the specified components, with an option to copy the input array.
     /// </summary>
     /// <param name="components"></param>
     /// <param name="copy"></param>
     /// <exception cref="ArgumentNullException"></exception>
-    public Vector(T[] components, bool copy)
+    public CustomVector(T[] components, bool copy)
     {
         if (components == null)
             throw new ArgumentNullException(nameof(components));
@@ -47,7 +47,7 @@ public class Vector<T>
     /// Implicit conversion from T[] to Vector{T}. 
     /// This allows an array of type T to be directly assigned to a variable of type Vector{T}, creating a new vector instance with the array's components.
     /// </summary>
-    public static implicit operator Vector<T>(T[] components) =>  new(components);
+    public static implicit operator CustomVector<T>(T[] components) =>  new(components);
     
     /// <summary>
     /// Returns a new vector of the specified dimension where all components are initialized to zero. 
@@ -56,14 +56,14 @@ public class Vector<T>
     /// </summary>
     /// <param name="dimension"></param>
     /// <returns></returns>
-    public static Vector<T> GetZeroVector(int dimension)
+    public static CustomVector<T> GetZeroVector(int dimension)
     {
         T[] zeroComponents = new T[dimension];
         for (int i = 0; i < dimension; i++)
         {
             zeroComponents[i] = T.Zero;
         }
-        return new Vector<T>(zeroComponents);
+        return new CustomVector<T>(zeroComponents);
     }
 
     /// <summary>
@@ -71,14 +71,14 @@ public class Vector<T>
     /// </summary>
     /// <param name="dimension"></param>
     /// <returns></returns>
-    public static Vector<T> GetOneVector(int dimension)
+    public static CustomVector<T> GetOneVector(int dimension)
     {
         T[] oneComponents = new T[dimension];
         for (int i = 0; i < dimension; i++)
         {
             oneComponents[i] = T.One;
         }
-        return new Vector<T>(oneComponents);
+        return new CustomVector<T>(oneComponents);
     }
 
     /// <summary>
@@ -100,7 +100,7 @@ public class Vector<T>
     /// <param name="b"> The second vector in the addition operation. Represents the addend.</param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    public static Vector<T> operator +(Vector<T> a, Vector<T> b)
+    public static CustomVector<T> operator +(CustomVector<T> a, CustomVector<T> b)
     {
         if (a.Dimension != b.Dimension)
             throw new InvalidOperationException("Vectors must have the same dimension for addition.");
@@ -110,7 +110,7 @@ public class Vector<T>
         {
             resultComponents[i] = a[i] + b[i];
         }
-        return new Vector<T>(resultComponents);
+        return new CustomVector<T>(resultComponents);
     }
 
     /// <summary>
@@ -121,7 +121,7 @@ public class Vector<T>
     /// <returns>A new vector whose components are the result of subtracting each component of <paramref name="b"/> from the
     /// corresponding component of <paramref name="a"/>.</returns>
     /// <exception cref="InvalidOperationException">Thrown if <paramref name="a"/> and <paramref name="b"/> do not have the same dimension.</exception>
-    public static Vector<T> operator -(Vector<T> a, Vector<T> b)
+    public static CustomVector<T> operator -(CustomVector<T> a, CustomVector<T> b)
     {
         if (a.Dimension != b.Dimension)
             throw new InvalidOperationException("Vectors must have the same dimension for subtraction.");
@@ -131,7 +131,7 @@ public class Vector<T>
         {
             resultComponents[i] = a[i] - b[i];
         }
-        return new Vector<T>(resultComponents);
+        return new CustomVector<T>(resultComponents);
     }
 
     /// <summary>
@@ -140,14 +140,14 @@ public class Vector<T>
     /// <param name="scalar"></param>
     /// <param name="vector"></param>
     /// <returns></returns>
-    public static Vector<T> operator *(T scalar, Vector<T> vector)
+    public static CustomVector<T> operator *(T scalar, CustomVector<T> vector)
     {
         T[] resultComponents = new T[vector.Dimension];
         for (int i = 0; i < vector.Dimension; i++)
         {
             resultComponents[i] = scalar * vector[i];
         }
-        return new Vector<T>(resultComponents);
+        return new CustomVector<T>(resultComponents);
     }
 
     /// <summary>
@@ -156,7 +156,7 @@ public class Vector<T>
     /// <param name="vector"></param>
     /// <param name="scalar"></param>
     /// <returns></returns>
-    public static Vector<T> operator *(Vector<T> vector, T scalar) => scalar * vector;
+    public static CustomVector<T> operator *(CustomVector<T> vector, T scalar) => scalar * vector;
 
     /// <summary>
     /// Calculates the dot product of two vectors of the same dimension, returning a single value that represents the sum of the products of corresponding components from the two vectors.
@@ -187,7 +187,7 @@ public class Vector<T>
     /// </remarks>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    public T Dot(Vector<T> other)
+    public T Dot(CustomVector<T> other)
     {
         if (this.Dimension != other.Dimension)
             throw new InvalidOperationException("Vectors must have the same dimension for dot product.");
@@ -224,7 +224,7 @@ public class Vector<T>
     /// </summary>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    public Vector<decimal> UnitVector()
+    public CustomVector<decimal> UnitVector()
     {
         double length = Length();
         if (length == 0)
@@ -235,7 +235,7 @@ public class Vector<T>
         {
             unitComponents[i] = decimal.CreateChecked(this[i]) / (decimal)length;
         }
-        return new Vector<decimal>(unitComponents);
+        return new CustomVector<decimal>(unitComponents);
     }
 
     /// <summary>
@@ -243,7 +243,7 @@ public class Vector<T>
     /// </summary>
     /// <param name="other"></param>
     /// <returns></returns>
-    public bool ArePerpendicularTo(Vector<T> other)
+    public bool ArePerpendicularTo(CustomVector<T> other)
     {
         return Dot(other) == T.Zero;
     }
@@ -255,7 +255,7 @@ public class Vector<T>
     /// <param name="other"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    public decimal CosineOfAngleBetweenVector(Vector<T> other)
+    public decimal CosineOfAngleBetweenVector(CustomVector<T> other)
     {
         double lengthA = Length();
         double lengthB = other.Length();
@@ -274,7 +274,7 @@ public class Vector<T>
     /// <param name="other"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    public decimal AngleBetweenVector(Vector<T> other)
+    public decimal AngleBetweenVector(CustomVector<T> other)
     {
         decimal cosTheta = CosineOfAngleBetweenVector(other);
         return Math.Acos(cosTheta);
@@ -300,7 +300,7 @@ public class Vector<T>
     /// <returns></returns>
     public override bool Equals(object? obj)
     {
-        if (obj is Vector<T> other)
+        if (obj is CustomVector<T> other)
         {
             if (Dimension != other.Dimension)
                 return false;

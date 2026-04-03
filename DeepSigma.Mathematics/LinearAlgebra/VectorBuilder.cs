@@ -13,9 +13,9 @@ public static class VectorBuilder
     /// <typeparam name="T"></typeparam>
     /// <param name="items"></param>
     /// <returns></returns>
-    public static Vector<T> Create<T>(ReadOnlySpan<T> items)
+    public static CustomVector<T> Create<T>(ReadOnlySpan<T> items)
         where T : INumber<T>
     {
-        return new Vector<T>(items.ToArray());
+        return new CustomVector<T>(items.ToArray());
     }
 }
