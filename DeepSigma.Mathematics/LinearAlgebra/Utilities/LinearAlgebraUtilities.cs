@@ -144,25 +144,25 @@ public static class LinearAlgebraUtilities
     public static Matrix<double> ToRref(Matrix<double> matrix, double tolerance = 1e-10)
     {
         var rref = matrix.Clone();
-        int rowCount = rref.RowCount;
-        int colCount = rref.ColumnCount;
+        int row_count = rref.RowCount;
+        int column_count = rref.ColumnCount;
 
         int lead = 0;
 
-        for (int r = 0; r < rowCount; r++)
+        for (int r = 0; r < row_count; r++)
         {
-            if (lead >= colCount)
+            if (lead >= column_count)
                 break;
 
             int i = r;
             while (Math.Abs(rref[i, lead]) < tolerance)
             {
                 i++;
-                if (i == rowCount)
+                if (i == row_count)
                 {
                     i = r;
                     lead++;
-                    if (lead == colCount) return rref;
+                    if (lead == column_count) return rref;
                 }
             }
 
@@ -177,7 +177,7 @@ public static class LinearAlgebraUtilities
             if (Math.Abs(pivot) > tolerance)
                 rref.SetRow(r, rref.Row(r) / pivot);
 
-            for (int row = 0; row < rowCount; row++)
+            for (int row = 0; row < row_count; row++)
             {
                 if (row == r) continue;
 
