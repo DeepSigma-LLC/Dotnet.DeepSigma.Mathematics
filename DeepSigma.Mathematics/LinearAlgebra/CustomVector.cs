@@ -1,5 +1,5 @@
 ﻿
-using DeepSigma.General.Extensions;
+using DeepSigma.Core.Extensions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;

@@ -1,4 +1,4 @@
-﻿using DeepSigma.General.Extensions;
+﻿using DeepSigma.Core.Extensions;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.Statistics;
 using System.Globalization;

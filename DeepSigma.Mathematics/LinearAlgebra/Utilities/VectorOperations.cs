@@ -1,4 +1,4 @@
-﻿using DeepSigma.General.Extensions;
+﻿using DeepSigma.Core.Extensions;
 using System.Numerics;
 
 namespace DeepSigma.Mathematics.LinearAlgebra.Utilities;

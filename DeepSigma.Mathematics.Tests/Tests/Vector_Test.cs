@@ -1,6 +1,6 @@
 ﻿using Xunit;
 using DeepSigma.Mathematics.LinearAlgebra;
-using DeepSigma.General.Extensions;
+using DeepSigma.Core.Extensions;
 
 namespace DeepSigma.Mathematics.Tests.Tests;
 

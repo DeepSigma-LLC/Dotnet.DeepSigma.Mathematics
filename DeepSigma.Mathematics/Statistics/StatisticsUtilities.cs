@@ -1,7 +1,7 @@
 ﻿using System.Data;
-using DeepSigma.General.DateTimeUnification;
-using DeepSigma.General.Enums;
-using DeepSigma.General.Extensions;
+using DeepSigma.Core.DateTimeUnification;
+using DeepSigma.Core.Enums;
+using DeepSigma.Core.Extensions;
 
 namespace DeepSigma.Mathematics.Statistics;
 
