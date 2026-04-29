@@ -24,10 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Calculus\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="Assets\DeepSigma.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Pack>True</Pack>
