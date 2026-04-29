@@ -7,10 +7,10 @@
     <Version>1.0.0</Version>
     <PackageId>DeepSigma.Mathematics.Optimization</PackageId>
     <Title>DeepSigma.Mathematics.Optimization</Title>
-    <Description>Generic numerical optimization for the DeepSigma mathematics family. Standalone — no dependencies on the Monte Carlo packages.</Description>
+    <Description>Generic numerical optimization for the DeepSigma mathematics family.</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>optimization;nelder-mead;simplex;minimization;numerics</PackageTags>
-    <PackageReleaseNotes>Initial preview with the Nelder-Mead derivative-free simplex minimizer.</PackageReleaseNotes>
+    <PackageReleaseNotes></PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
