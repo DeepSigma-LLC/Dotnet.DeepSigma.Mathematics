@@ -4,9 +4,9 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.1.0</Version>
+    <Version>1.0.0</Version>
     <PackageId>DeepSigma.Mathematics.Optimization</PackageId>
-    <Title>DeepSigma Mathematics Optimization</Title>
+    <Title>DeepSigma.Mathematics.Optimization</Title>
     <Description>Generic numerical optimization for the DeepSigma mathematics family. Standalone — no dependencies on the Monte Carlo packages.</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>optimization;nelder-mead;simplex;minimization;numerics</PackageTags>
@@ -14,15 +14,30 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Authors>DeepSigma LLC</Authors>
+    <PackageProjectUrl>https://github.com/DeepSigma-LLC/Dotnet.DeepSigma.Mathematics/tree/main/DeepSigma.Mathematics.Optimization</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/DeepSigma-LLC/Dotnet.DeepSigma.Mathematics/tree/main/DeepSigma.Mathematics.Optimization</RepositoryUrl>
+    <PackageIcon>Assets\DeepSigma.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="Assets\DeepSigma.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Google.OrTools" Version="9.15.6755" />
     <PackageReference Include="NLoptNet" Version="1.4.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Assets\" />
   </ItemGroup>
 
 </Project>

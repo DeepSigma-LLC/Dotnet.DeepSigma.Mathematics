@@ -1,11 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36301.6 d17.14
+# Visual Studio Version 18
+VisualStudioVersion = 18.5.11716.220 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepSigma.Mathematics", "DeepSigma.Mathematics.csproj", "{1E8BF820-EA05-4933-994E-FE015378F0CA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepSigma.Mathematics.Tests", "..\DeepSigma.Mathematics.Tests\DeepSigma.Mathematics.Tests.csproj", "{F6E757CD-D9C8-4B93-9FA9-67278709AA83}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepSigma.Mathematics.Optimization", "..\DeepSigma.Mathematics.Optimization\DeepSigma.Mathematics.Optimization.csproj", "{EE37636A-A9FA-E8BD-B4B1-7B330C577F41}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepSigma.Mathematics.Optimization.Tests", "..\DeepSigma.Mathematics.Optimization.Tests\DeepSigma.Mathematics.Optimization.Tests.csproj", "{6861E721-F463-356B-9806-554078B07E13}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{8E129662-528C-48EA-98B8-899802AF5643}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F16F6E6C-FC9E-40CC-8CD8-23C6F7044C6C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,9 +29,23 @@ Global
 		{F6E757CD-D9C8-4B93-9FA9-67278709AA83}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6E757CD-D9C8-4B93-9FA9-67278709AA83}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6E757CD-D9C8-4B93-9FA9-67278709AA83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE37636A-A9FA-E8BD-B4B1-7B330C577F41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE37636A-A9FA-E8BD-B4B1-7B330C577F41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE37636A-A9FA-E8BD-B4B1-7B330C577F41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE37636A-A9FA-E8BD-B4B1-7B330C577F41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6861E721-F463-356B-9806-554078B07E13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6861E721-F463-356B-9806-554078B07E13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6861E721-F463-356B-9806-554078B07E13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6861E721-F463-356B-9806-554078B07E13}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1E8BF820-EA05-4933-994E-FE015378F0CA} = {F16F6E6C-FC9E-40CC-8CD8-23C6F7044C6C}
+		{F6E757CD-D9C8-4B93-9FA9-67278709AA83} = {8E129662-528C-48EA-98B8-899802AF5643}
+		{EE37636A-A9FA-E8BD-B4B1-7B330C577F41} = {F16F6E6C-FC9E-40CC-8CD8-23C6F7044C6C}
+		{6861E721-F463-356B-9806-554078B07E13} = {8E129662-528C-48EA-98B8-899802AF5643}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9937CA09-6442-4B10-B1E1-509C922E8273}

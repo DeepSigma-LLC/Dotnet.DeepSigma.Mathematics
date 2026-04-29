@@ -42,16 +42,17 @@ public class WeightedRandom<T>
         if (_items.Count == 0)
             throw new InvalidOperationException("No items to choose from.");
 
-        double r = _random.NextDouble() * _totalWeight;
+        double r = _random.NextDouble() * _totalWeight; // Generate a random number between 0 and the total weight.
 
         int index = _items.BinarySearch(
-            new WeightedItem<T>(default, r),
-            Comparer<WeightedItem<T>>.Create((a, b) => a.Weight.CompareTo(b.Weight))
+            new WeightedItem<T>(default, r), // Create a dummy item with the random weight for searching.
+            Comparer<WeightedItem<T>>.Create((a, b) => a.Weight.CompareTo(b.Weight)) // Compare based on weight for binary search.
         );
 
         if (index < 0)
-            index = ~index;
+            index = ~index; // If not found, BinarySearch returns the bitwise complement of the index of the next element that is larger than the search value.
 
-        return _items[Math.Min(index, _items.Count - 1)].Item;
+        int targetIndex = Math.Min(index, _items.Count - 1); // Ensure the index is within bounds.
+        return _items[targetIndex].Item;
     }
 }

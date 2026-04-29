@@ -38,14 +38,16 @@ public static class LinearAlgebraUtilities
     /// not copied defensively; changes to the array after calling this method do not affect the matrix.</remarks>
     /// <param name="data">A two-dimensional array of decimal values that provides the elements for the matrix. This parameter must not be
     /// null.</param>
-    /// <returns>A Matrix<double> instance containing the values from the specified array.</returns>
+    /// <returns>
+    /// A Matrix&lt;double&gt; instance containing the values from the specified array.
+    /// </returns>
     public static Matrix<double> CreateDenseMatrix(double[,] data) => Matrix<double>.Build.DenseOfArray(data);
 
     /// <summary>
-    /// Creates a sparse matrix of decimal values from the specified two-dimensional array.
+    /// Creates a dense identity matrix of the specified order.
     /// </summary>
-    /// <param name="order"></param>
-    /// <returns></returns>
+    /// <param name="order">The order of the identity matrix. Must be greater than or equal to 0.</param>
+    /// <returns>A dense identity matrix of the specified order.</returns>
     public static Matrix<double> CreateDenseIdentityMatrix(int order) => Matrix<double>.Build.DenseIdentity(order);
 
     /// <summary>
