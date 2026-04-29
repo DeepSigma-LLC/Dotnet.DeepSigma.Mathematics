@@ -12,14 +12,12 @@
     <PackageTags>optimization;nelder-mead;simplex;minimization;numerics</PackageTags>
     <PackageReleaseNotes>Initial preview with the Nelder-Mead derivative-free simplex minimizer.</PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Authors>DeepSigma LLC</Authors>
     <PackageProjectUrl>https://github.com/DeepSigma-LLC/Dotnet.DeepSigma.Mathematics/tree/main/DeepSigma.Mathematics.Optimization</PackageProjectUrl>
     <RepositoryUrl>https://github.com/DeepSigma-LLC/Dotnet.DeepSigma.Mathematics/tree/main/DeepSigma.Mathematics.Optimization</RepositoryUrl>
-    <PackageIcon>Assets\DeepSigma.png</PackageIcon>
+    <PackageIcon>DeepSigma.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
